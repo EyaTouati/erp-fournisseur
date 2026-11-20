@@ -6,3 +6,8 @@ target/
 ~$*
 .$*.dtmp
 .DS_Store
+
+# Frontend et backend (fichiers generes)
+node_modules/
+dist/
+backend/target/
