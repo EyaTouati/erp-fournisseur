@@ -71,3 +71,46 @@ Un workflow (l'achat), découpé en 4 sous-processus : A, B, C et D.
 ![Slide 14](docs/02-presentation/slides/slide-14.jpg)
 ![Slide 15](docs/02-presentation/slides/slide-15.jpg)
 ![Slide 16](docs/02-presentation/slides/slide-16.jpg)
+
+## Installation et lancement
+
+### 1. Outils à installer (une seule fois)
+| Outil | Version | Vérification |
+|---|---|---|
+| Git | dernière | `git --version` |
+| JDK (Temurin) | 17 | `java -version` |
+| Node.js | 20 LTS | `node -v` |
+| IntelliJ IDEA Community | dernière | backend |
+| VS Code | dernière | frontend |
+| PostgreSQL + pgAdmin | 16 ou plus | mot de passe `postgres` |
+
+Maven n'est pas à installer : le wrapper `mvnw` est dans le dépôt.
+
+### 2. Base de données
+Dans pgAdmin : clic droit sur *Databases* → *Create* → *Database*, nom `erp_fournisseur`.
+La base reste vide : Flyway crée les tables au démarrage du backend.
+
+### 3. Récupérer le projet
+```
+git clone https://github.com/EyaTouati/erp-fournisseur.git
+cd erp-fournisseur
+```
+
+### 4. Lancer le backend (terminal 1)
+```
+cd backend
+mvnw.cmd spring-boot:run
+```
+Ou ouvrir `backend/` dans IntelliJ et cliquer sur ▶ sur `FournisseurApplication`.
+API : http://localhost:8080 · Swagger : http://localhost:8080/swagger-ui.html
+
+### 5. Lancer le frontend (terminal 2)
+```
+cd frontend
+npm install
+npm run dev
+```
+Écrans : http://localhost:5173
+
+### 6. Comptes de test (mot de passe `1234`)
+`magasinier` · `achats` · `achats2` · `directeur` · `comptable`
