@@ -1,0 +1,275 @@
+
+POST http://localhost:8080/api/fournisseurs
+Content-Type: application/json
+
+{
+  "nom": "Tech Solutions",
+  "email": "contact@techsolutions.tn",
+  "telephone": "71234567",
+  "adresse": "Tunis, Tunisia",
+  "actif": true
+}
+###
+GET http://localhost:8080/api/fournisseurs
+###
+GET http://localhost:8080/api/fournisseurs/4
+###
+PUT http://localhost:8080/api/fournisseurs/4
+Content-Type: application/json
+
+{
+  "nom": "Tech Solutions Updated",
+  "email": "newcontact@techsolutions.tn",
+  "telephone": "71999999",
+  "adresse": "Ariana, Tunisia",
+  "actif": true
+}
+###
+DELETE http://localhost:8080/api/fournisseurs/4
+###
+GET http://localhost:8080/api/fournisseurs
+###
+POST http://localhost:8080/api/fournisseurs
+Content-Type: application/json
+
+{
+  "nom": "",
+  "email": "not-an-email",
+  "telephone": "71234567",
+  "adresse": "Tunis, Tunisia",
+  "actif": true
+}
+###
+GET http://localhost:8080/api/fournisseurs/9999
+
+### Create a supplier using DTO
+POST http://localhost:8080/api/fournisseurs
+Content-Type: application/json
+
+{
+  "nom": "Test DTO",
+  "email": "testdto@gmail.com",
+  "telephone": "12345678",
+  "adresse": "Tunis",
+  "actif": true
+}
+### Get all suppliers
+GET http://localhost:8080/api/fournisseurs
+### Get supplier by ID
+GET http://localhost:8080/api/fournisseurs/7
+### Update supplier
+PUT http://localhost:8080/api/fournisseurs/7
+Content-Type: application/json
+
+{
+  "nom": "Test DTO Updated",
+  "email": "updated@gmail.com",
+  "telephone": "98765432",
+  "adresse": "Sousse, Tunisia",
+  "actif": true
+}
+### Delete supplier
+DELETE http://localhost:8080/api/fournisseurs/7
+###
+GET http://localhost:8080/api/fournisseurs/7
+### Test DTO validation
+POST http://localhost:8080/api/fournisseurs
+Content-Type: application/json
+
+{
+  "nom": "",
+  "email": "not-an-email",
+  "telephone": "12345678",
+  "adresse": "Tunis",
+  "actif": true
+}
+
+### Create a product
+POST http://localhost:8080/api/produits
+Content-Type: application/json
+
+{
+  "reference": "PROD001",
+  "libelle": "Ordinateur portable",
+  "unite": "unité",
+  "stockActuel": 10,
+  "seuilReappro": 3
+}
+
+### Get all products
+GET http://localhost:8080/api/produits
+
+### Get product by ID
+GET http://localhost:8080/api/produits/1
+### Create a product
+POST http://localhost:8080/api/produits
+Content-Type: application/json
+
+{
+  "reference": "PROD001",
+  "libelle": "Ordinateur portable",
+  "unite": "unité",
+  "stockActuel": 10,
+  "seuilReappro": 3
+}
+###
+GET http://localhost:8080/api/produits
+###
+GET http://localhost:8080/api/produits/1
+### Update product
+PUT http://localhost:8080/api/produits/1
+Content-Type: application/json
+
+{
+  "reference": "PROD001",
+  "libelle": "Ordinateur portable",
+  "unite": "unité",
+  "stockActuel": 15,
+  "seuilReappro": 5
+}
+### Delete product
+DELETE http://localhost:8080/api/produits/1
+### Verify product deletion
+GET http://localhost:8080/api/produits/1
+### Create product with DTO
+POST http://localhost:8080/api/produits
+Content-Type: application/json
+
+{
+  "reference": "PROD001",
+  "libelle": "Ordinateur portable",
+  "unite": "unité",
+  "stockActuel": 10,
+  "seuilReappro": 3
+}
+### Test product validation
+POST http://localhost:8080/api/produits
+Content-Type: application/json
+
+{
+  "reference": "",
+  "libelle": "",
+  "unite": "unité",
+  "stockActuel": -5,
+  "seuilReappro": -2
+}
+### Get all catalogues
+GET http://localhost:8080/api/catalogues
+### Get all suppliers
+GET http://localhost:8080/api/fournisseurs
+### Get all products
+GET http://localhost:8080/api/produits
+### Create catalogue entry
+POST http://localhost:8080/api/catalogues
+Content-Type: application/json
+
+{
+  "fournisseurId": 5,
+  "produitId": 2,
+  "prixUnitaire": 1500.000,
+  "delaiJours": 7
+}
+### Update catalogue
+PUT http://localhost:8080/api/catalogues/1
+Content-Type: application/json
+
+{
+  "fournisseurId": 5,
+  "produitId": 2,
+  "prixUnitaire": 1600.000,
+  "delaiJours": 10
+}
+### Get catalogue by ID
+GET http://localhost:8080/api/catalogues/1
+### Delete catalogue
+DELETE http://localhost:8080/api/catalogues/1
+### Verify catalogue deletion
+GET http://localhost:8080/api/catalogues
+###
+POST http://localhost:8080/api/fournisseurs
+Content-Type: application/json
+
+{
+  "nom": "Test Fournisseur",
+  "identifiantFiscal": "MF123456",
+  "email": "test@example.com",
+  "telephone": "12345678",
+  "adresse": "Tunis",
+  "actif": true
+}
+###
+POST http://localhost:8080/api/fournisseurs
+Content-Type: application/json
+
+{
+  "nom": "Another Supplier",
+  "identifiantFiscal": "MF123456",
+  "email": "another@example.com",
+  "telephone": "98765432",
+  "adresse": "Sfax",
+  "actif": true
+}
+###
+POST http://localhost:8080/api/fournisseurs
+Content-Type: application/json
+
+{
+  "nom": "Another Supplier",
+  "identifiantFiscal": "MF123456",
+  "email": "another@example.com",
+  "telephone": "98765432",
+  "adresse": "Sfax",
+  "actif": true
+}
+###
+POST http://localhost:8080/api/fournisseurs
+Content-Type: application/json
+
+{
+  "nom": "Test Fournisseur",
+  "identifiantFiscal": "MF999999",
+  "email": "duplicate@example.com",
+  "telephone": "98765432",
+  "adresse": "Sfax",
+  "actif": true
+}
+###
+PATCH http://localhost:8080/api/fournisseurs/8/desactiver
+Content-Type: application/json
+
+{
+  "motif": "Fin de collaboration avec le fournisseur"
+}
+###
+PATCH http://localhost:8080/api/fournisseurs/8/desactiver
+Content-Type: application/json
+
+{
+  "motif": ""
+}
+###
+GET http://localhost:8080/api/fournisseurs/8
+###
+GET http://localhost:8080/api/catalogues
+###
+GET http://localhost:8080/api/fournisseurs
+###
+POST http://localhost:8080/api/catalogues
+Content-Type: application/json
+
+{
+  "fournisseurId": 5,
+  "produitId": 2,
+  "prixUnitaire": 1500,
+  "delaiJours": 7
+}
+###
+PUT http://localhost:8080/api/catalogues/8
+Content-Type: application/json
+
+{
+  "fournisseurId": 5,
+  "produitId": 2,
+  "prixUnitaire": 1600,
+  "delaiJours": 10
+}
