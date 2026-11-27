@@ -16,8 +16,8 @@ export default function Login() {
     try {
       await login(username, password)
       navigate('/')
-    } catch {
-      setErreur('Identifiant ou mot de passe incorrect')
+      } catch (err) {
+      setErreur(err.response?.data?.message || 'Identifiant ou mot de passe incorrect')
     }
   }
 
