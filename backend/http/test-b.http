@@ -1,0 +1,71 @@
+### 1. connexion magasinier
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{"username": "magasinier", "password": "1234"}
+
+### 2. jeton CSRF (à refaire après chaque connexion)
+GET http://localhost:8080/api/auth/csrf
+
+> {% client.global.set("csrf", response.body.token); %}
+
+### 3. créer une demande d'achat (produit 1, 50 unités)
+POST http://localhost:8080/api/b/demandes
+Content-Type: application/json
+X-XSRF-TOKEN: {{csrf}}
+
+{"produitId": 1, "quantite": 50, "dateSouhaitee": "2026-12-10"}
+
+### 4. soumettre la demande
+POST http://localhost:8080/api/b/demandes/1/soumettre
+X-XSRF-TOKEN: {{csrf}}
+
+### 5. connexion achats
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{"username": "achats", "password": "1234"}
+
+### 6. nouveau jeton CSRF
+GET http://localhost:8080/api/auth/csrf
+
+> {% client.global.set("csrf", response.body.token); %}
+
+### 7. accepter la demande
+POST http://localhost:8080/api/b/demandes/1/accepter
+X-XSRF-TOKEN: {{csrf}}
+
+### 8. demande de prix vers 2 fournisseurs
+POST http://localhost:8080/api/b/demandes-prix
+Content-Type: application/json
+X-XSRF-TOKEN: {{csrf}}
+
+{"demandeAchatId": 1, "dateLimite": "2026-12-05", "fournisseurIds": [1, 2]}
+
+### 9. envoyer la demande de prix
+POST http://localhost:8080/api/b/demandes-prix/1/envoyer
+X-XSRF-TOKEN: {{csrf}}
+
+### 10. offre du fournisseur 1
+POST http://localhost:8080/api/b/demandes-prix/1/offres
+Content-Type: application/json
+X-XSRF-TOKEN: {{csrf}}
+
+{"fournisseurId": 1, "prixUnitaire": 120.5, "quantite": 50, "delaiJours": 7, "conditions": "30 jours", "dateValidite": "2026-12-31"}
+
+### 11. offre du fournisseur 2 (moins chère)
+POST http://localhost:8080/api/b/demandes-prix/1/offres
+Content-Type: application/json
+X-XSRF-TOKEN: {{csrf}}
+
+{"fournisseurId": 2, "prixUnitaire": 110, "quantite": 50, "delaiJours": 10, "conditions": "à la livraison", "dateValidite": "2026-12-31"}
+
+### 12. comparer les offres
+GET http://localhost:8080/api/b/demandes-prix/1/offres
+
+### 13. retenir la moins chère (id 2)
+POST http://localhost:8080/api/b/offres/2/retenir
+Content-Type: application/json
+X-XSRF-TOKEN: {{csrf}}
+
+{}
