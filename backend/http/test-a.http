@@ -1,0 +1,91 @@
+### 1. récupérer le jeton CSRF (copier le champ "token" pour les requêtes POST/PUT)
+GET http://localhost:8080/api/auth/csrf
+
+### 2. se connecter en ACHATS
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{"username": "achats", "password": "1234"}
+
+### 3. lister les fournisseurs
+GET http://localhost:8080/api/a/fournisseurs
+
+### 3b. filtrer / rechercher
+GET http://localhost:8080/api/a/fournisseurs?statut=ACTIF&q=king
+
+### 4. créer un fournisseur (remplacer le token)
+POST http://localhost:8080/api/a/fournisseurs
+Content-Type: application/json
+X-XSRF-TOKEN: <token>
+
+{"nom": "Dell", "identifiantFiscal": "1234567A", "adresse": "Tunis", "telephone": "71000000", "email": "contact@dell.tn", "conditionsPaiement": "30 jours fin de mois"}
+
+### 5. doublon -> 400 RG-A1 (même identifiantFiscal)
+POST http://localhost:8080/api/a/fournisseurs
+Content-Type: application/json
+X-XSRF-TOKEN: <token>
+
+{"nom": "Dell bis", "identifiantFiscal": "1234567A"}
+
+### 6. lire un fournisseur
+GET http://localhost:8080/api/a/fournisseurs/1
+
+### 7. modifier
+PUT http://localhost:8080/api/a/fournisseurs/1
+Content-Type: application/json
+X-XSRF-TOKEN: <token>
+
+{"nom": "Dell Tunisie", "identifiantFiscal": "1234567A", "adresse": "Lac 2", "telephone": "71000000", "email": "contact@dell.tn", "conditionsPaiement": "45 jours"}
+
+### 8. ajouter un produit au catalogue (produitId = id d'un produit existant)
+POST http://localhost:8080/api/a/fournisseurs/1/catalogue
+Content-Type: application/json
+X-XSRF-TOKEN: <token>
+
+{"produitId": 1, "prixUnitaire": 120.0, "delaiJours": 5}
+
+### 9. voir le catalogue
+GET http://localhost:8080/api/a/fournisseurs/1/catalogue
+
+### 10. changer le prix (historise l'ancien)
+PUT http://localhost:8080/api/a/catalogue/1
+Content-Type: application/json
+X-XSRF-TOKEN: <token>
+
+{"prixUnitaire": 125.0, "delaiJours": 4}
+
+### 11. historique des prix
+GET http://localhost:8080/api/a/catalogue/1/historique
+
+### 12. évaluer (RG-A4 : notes de 1 à 5)
+POST http://localhost:8080/api/a/fournisseurs/1/evaluations
+Content-Type: application/json
+X-XSRF-TOKEN: <token>
+
+{"commandeId": null, "noteDelai": 4, "noteQualite": 5, "notePrix": 3, "commentaire": "Livraison rapide"}
+
+### 12b. note invalide -> 400
+POST http://localhost:8080/api/a/fournisseurs/1/evaluations
+Content-Type: application/json
+X-XSRF-TOKEN: <token>
+
+{"noteDelai": 7, "noteQualite": 5, "notePrix": 3}
+
+### 13. évaluations + moyenne
+GET http://localhost:8080/api/a/fournisseurs/1/evaluations
+
+### 14. fournisseurs actifs pour un produit (utilisé par B)
+GET http://localhost:8080/api/a/fournisseurs/actifs?produitId=1
+
+### 15. désactiver (motif obligatoire)
+POST http://localhost:8080/api/a/fournisseurs/1/desactiver
+Content-Type: application/json
+X-XSRF-TOKEN: <token>
+
+{"motif": "Retards répétés"}
+
+### 16. se reconnecter en magasinier puis refaire un GET /api/a/fournisseurs -> 403
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{"username": "magasinier", "password": "1234"}
