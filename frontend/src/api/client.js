@@ -1,6 +1,13 @@
 import axios from 'axios'
 
-// withCredentials : le cookie de session est envoyé à chaque appel
-const api = axios.create({ withCredentials: true })
+const client = axios.create({ baseURL: '/api', withCredentials: true })
+// axios renvoie tout seul le cookie XSRF-TOKEN dans l'en-tête X-XSRF-TOKEN (même origine via le proxy)
 
-export default api
+client.interceptors.response.use(r => r, err => {
+  if (err.response?.status === 401 && !location.pathname.startsWith('/login')) {
+    location.href = '/login'
+  }
+  return Promise.reject(err)
+})
+
+export default client
